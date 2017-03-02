@@ -9,7 +9,6 @@ import java.util.Random;
  * Created by Alex on 3/1/2017.
  */
 public class Arena extends Thread {
-    private final Object lock = new Object();
     List<Fighter> list = Collections.synchronizedList(new LinkedList<Fighter>());
 
     //Урон наносимый бойцом(рассчет идет во время удара)
@@ -57,11 +56,9 @@ public class Arena extends Thread {
             } finally {
                 Thread.currentThread().interrupt();
             }
-
-
-            if (Thread.currentThread().isAlive() && list.size() == 0) {
-                Thread.currentThread().interrupt();
-            }
+        }
+        if (Thread.currentThread().isAlive() && list.size() == 0) {
+            Thread.currentThread().interrupt();
         }
     }
 
