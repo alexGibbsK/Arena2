@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -8,26 +9,35 @@ import java.util.Random;
  * Created by java-1-07 on 01.03.2017.
  */
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args){
 
         Random r = new Random();
         //ID для каждого файтера
-        int id = 1;
+        int fighterId = 1;
+        int arenaId = 0;
+        //Кол-во бойцов
+        int fCount = 50000;
         //Кол-во арен
-        int countOfArenas = 5;
+        int countOfArenas = 30;
 
-        List<Fighter> list = new LinkedList<Fighter>();
+
+        List<Fighter> list = Collections.synchronizedList(new LinkedList<Fighter>());
         List<Arena> arenaList = new LinkedList<Arena>();
 
         //Создание списков
-        getFighterList(r, list, id);
-        getArenaList(list, arenaList, countOfArenas);
+        getFighterList(r, list, fighterId, fCount);
+        getArenaList(list, arenaList, countOfArenas, arenaId);
 
         //Вывод списка бойцов
         fighterListPrint(list);
 
         //Начало битвы
-        startFightOnAllArenas(arenaList);
+            startFightOnAllArenas(arenaList);
+
+        for (Fighter f :
+                list) {
+            System.out.println(f.toString());
+        }
 
     }
 
@@ -47,15 +57,15 @@ public class Main {
     }
 
     //Создание списка арен
-    private static void getArenaList(List<Fighter> list, List<Arena> arenaList, int count) {
+    private static void getArenaList(List<Fighter> list, List<Arena> arenaList, int count, int id) {
         for (int i = 0; i < count; i++) {
-            arenaList.add(new Arena(list));
+            arenaList.add(new Arena(list, ++id));
         }
     }
 
     //Создание списка файтеров
-    private static void getFighterList(Random r, List<Fighter> list, int id) {
-        for (int i = 0; i < 2; i++) {
+    private static void getFighterList(Random r, List<Fighter> list, int id, int fCount) {
+        for (int i = 0; i < fCount; i++) {
             list.add(new Fighter(r.nextInt(100) + 1, r.nextInt(100) + 1, r.nextInt(100) + 1, id++));
         }
     }

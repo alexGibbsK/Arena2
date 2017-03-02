@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -8,10 +9,12 @@ import java.util.Random;
  * Created by Alex on 3/1/2017.
  */
 public class Arena extends Thread {
-    List<Fighter> list = new LinkedList<Fighter>();
+    private final Object lock = new Object();
+    List<Fighter> list = Collections.synchronizedList(new LinkedList<Fighter>());
 
     //Урон наносимый бойцом(рассчет идет во время удара)
     int damage;
+    int id;
     Random r = new Random();
 
     //Свитч для реализации очередности ударов
@@ -24,26 +27,31 @@ public class Arena extends Thread {
 
     }
 
-    public Arena(List<Fighter> list) {
+    public Arena(List<Fighter> list, int id) {
         this.list = list;
+        this.id = id;
     }
 
     @Override
     public void run() {
-        synchronized (list) {
-            while (list.size() > 1) {
+            while (list.size() > 0) {
                 try {
-                    //Старт боя с последующим добавлением победителя в конец листа
-                    list.add(fight(list.get(0), list.get(1)));
-                    list.remove(0);
-                    list.remove(0);
-
+                    synchronized (list) {
                     //Вывод победителя и окончательная очистка листа
                     if (list.size() == 1) {
                         System.out.println("WINNER: " + list.get(0));
                         list.remove(0);
                         Thread.currentThread().interrupt();
-                    }
+                    } else {
+                        System.out.println("Arena #" + this.id);
+                        list.add(fight(list.get(0), list.get(1)));
+                        list.remove(0);
+                        list.remove(0);
+                    }}
+                    //Старт боя с последующим добавлением победителя в конец листа
+                    // synchronized (list){
+                    //lock.wait();
+
                 } catch (IndexOutOfBoundsException e) {
                     Thread.currentThread().interrupt();
                 } catch (NullPointerException e) {
@@ -51,9 +59,15 @@ public class Arena extends Thread {
                 } finally {
                     Thread.currentThread().interrupt();
                 }
+
+
+                if (Thread.currentThread().isAlive() && list.size() == 0) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
-    }
+
+
 
     public Fighter fight(Fighter f1, Fighter f2) {
         System.out.println("\n" + f1.toString());
