@@ -34,39 +34,36 @@ public class Arena extends Thread {
 
     @Override
     public void run() {
-            while (list.size() > 0) {
-                try {
-                    synchronized (list) {
+        while (list.size() > 0) {
+            try {
+                synchronized (list) {
                     //Вывод победителя и окончательная очистка листа
                     if (list.size() == 1) {
                         System.out.println("WINNER: " + list.get(0));
                         list.remove(0);
                         Thread.currentThread().interrupt();
                     } else {
+                        //Старт боя с последующим добавлением победителя в конец листа
                         System.out.println("Arena #" + this.id);
                         list.add(fight(list.get(0), list.get(1)));
                         list.remove(0);
                         list.remove(0);
-                    }}
-                    //Старт боя с последующим добавлением победителя в конец листа
-                    // synchronized (list){
-                    //lock.wait();
-
-                } catch (IndexOutOfBoundsException e) {
-                    Thread.currentThread().interrupt();
-                } catch (NullPointerException e) {
-                    Thread.currentThread().interrupt();
-                } finally {
-                    Thread.currentThread().interrupt();
+                    }
                 }
+            } catch (IndexOutOfBoundsException e) {
+                Thread.currentThread().interrupt();
+            } catch (NullPointerException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                Thread.currentThread().interrupt();
+            }
 
 
-                if (Thread.currentThread().isAlive() && list.size() == 0) {
-                    Thread.currentThread().interrupt();
-                }
+            if (Thread.currentThread().isAlive() && list.size() == 0) {
+                Thread.currentThread().interrupt();
             }
         }
-
+    }
 
 
     public Fighter fight(Fighter f1, Fighter f2) {

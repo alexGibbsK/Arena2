@@ -16,9 +16,9 @@ public class Main {
         int fighterId = 1;
         int arenaId = 0;
         //Кол-во бойцов
-        int fCount = 50000;
+        int fCount = 3000;
         //Кол-во арен
-        int countOfArenas = 30;
+        int countOfArenas = 10;
 
 
         List<Fighter> list = Collections.synchronizedList(new LinkedList<Fighter>());
