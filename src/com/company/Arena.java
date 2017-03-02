@@ -1,13 +1,15 @@
 package com.company;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Alex on 3/1/2017.
  */
-public class Arena extends Thread{
-    Fighter f1;
-    Fighter f2;
+public class Arena extends Thread {
+    List<Fighter> list = new LinkedList<Fighter>();
+
     //Урон наносимый бойцом(рассчет идет во время удара)
     int damage;
     Random r = new Random();
@@ -15,19 +17,46 @@ public class Arena extends Thread{
     //Свитч для реализации очередности ударов
     int fighterSwitch;
 
-    Arena(){
+    Arena() {
         Fighter f1;
         Fighter f2;
+        List list;
+
     }
 
-    public Arena(Fighter f1, Fighter f2) {
-        this.f1 = f1;
-        this.f2 = f2;
+    public Arena(List<Fighter> list) {
+        this.list = list;
     }
 
+    @Override
+    public void run() {
+        synchronized (list) {
+            while (list.size() > 1) {
+                try {
+                    //Старт боя с последующим добавлением победителя в конец листа
+                    list.add(fight(list.get(0), list.get(1)));
+                    list.remove(0);
+                    list.remove(0);
+
+                    //Вывод победителя и окончательная очистка листа
+                    if (list.size() == 1) {
+                        System.out.println("WINNER: " + list.get(0));
+                        list.remove(0);
+                        Thread.currentThread().interrupt();
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Thread.currentThread().interrupt();
+                } catch (NullPointerException e) {
+                    Thread.currentThread().interrupt();
+                } finally {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
 
     public Fighter fight(Fighter f1, Fighter f2) {
-        System.out.println(f1.toString());
+        System.out.println("\n" + f1.toString());
         System.out.println("VS");
         System.out.println(f2.toString() + "\n");
 
@@ -51,8 +80,8 @@ public class Arena extends Thread{
             }
         }
 
-        System.out.println("Figter1 hp: " + f1.getHp());
-        System.out.println("Figter2 hp: " + f2.getHp());
+        System.out.println("Figter" + f1.id + " hp: " + f1.getHp());
+        System.out.println("Figter" + f2.id + " hp: " + f2.getHp());
         System.out.println("\n----------------------------\n");
 
         //Возвращение победителя в замесе обратно в лист
@@ -65,25 +94,24 @@ public class Arena extends Thread{
         }
     }
 
-    //Реализация удара для Fighter 1
+    //Реализация удара
     public void fighterHit(Fighter f1, Fighter f2) {
         damage = r.nextInt(f1.getStr()) + 1;
         //Реализация крита;
         if (r.nextDouble() < ((double) f1.getPer() / 100)) {
             f2.hp -= (damage * 2);
-            System.out.println((char) 27 + "[31mCRIT F1 hit F2 for: " + damage * 2 + " HP" + (char) 27 + "[0m");
+            System.out.println((char) 27 + "[31mCRIT Fighter" + f1.id + " hit Fighter" + f2.id + " for: " + damage * 2 + " HP" + (char) 27 + "[0m");
         }
         //Реализация уворота
         else if (r.nextDouble() < ((double) f2.getDex() / 100)) {
             f2.hp -= (damage * 0.2);
-            System.out.println((char) 27 + "[34mDODGE F1 hit F2 for: " + (int) (damage * 0.2) + " HP" + (char) 27 + "[0m");
+            System.out.println((char) 27 + "[34mDODGE Fighter" + f1.id + " hit Fighter" + f2.id + " for: " + (int) (damage * 0.2) + " HP" + (char) 27 + "[0m");
         }
         //Реализация обычного удара
         else {
             f2.hp -= damage;
-            System.out.println("NORMAL F1 hit F2 for: " + damage + " HP");
+            System.out.println("NORMAL Fighter" + f1.id + " hit Fighter" + f2.id + " for: " + damage + " HP");
         }
 
     }
-
 }
