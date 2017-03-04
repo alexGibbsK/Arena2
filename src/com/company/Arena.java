@@ -53,10 +53,7 @@ public class Arena implements Runnable {
 
 
     public void fight() {
-            f1 = list.get(0);
-            f2 = list.get(1);
-            list.remove(0);
-            list.remove(0);
+        getFromList();
 
         System.out.println("Arena #" + this.id);
         System.out.println("\n" + f1.toString());
@@ -88,15 +85,26 @@ public class Arena implements Runnable {
         System.out.println("\n----------------------------\n");
 
         //Возвращение победителя в замесе обратно в лист
-            if (f1.getHp() > 0) {
-                f1.setHp(100);
-                list.add(f1);
-            } else {
-                f2.setHp(100);
-                list.add(f2);
-            }
-            System.out.println("LIST SIZE: " + list.size());
+        returnToList();
+        System.out.println("LIST SIZE: " + list.size());
 
 
+    }
+
+    private synchronized void returnToList() {
+        if (f1.getHp() > 0) {
+            f1.setHp(100);
+            list.add(f1);
+        } else {
+            f2.setHp(100);
+            list.add(f2);
+        }
+    }
+
+    private synchronized void getFromList() {
+        f1 = list.get(0);
+        f2 = list.get(1);
+        list.remove(0);
+        list.remove(0);
     }
 }
