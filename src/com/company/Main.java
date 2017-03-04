@@ -1,49 +1,55 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by java-1-07 on 01.03.2017.
  */
 public class Main {
-    public static void main(String[] args){
-
+    public static void main(String[] args) throws InterruptedException {
         Random r = new Random();
         //ID для каждого файтера
         int fighterId = 1;
         int arenaId = 0;
         //Кол-во бойцов
-        int fCount = 3000;
+        int fCount = 10000;
         //Кол-во арен
-        int countOfArenas = 10;
+        int countOfArenas = 20;
+
+        long timer = System.currentTimeMillis();
+        List<Fighter> list = Collections.synchronizedList(new ArrayList<Fighter>());
+        List<Thread> arenaList = new ArrayList<Thread>();
 
 
-        List<Fighter> list = Collections.synchronizedList(new LinkedList<Fighter>());
-        List<Arena> arenaList = new LinkedList<Arena>();
 
         //Создание списков
         getFighterList(r, list, fighterId, fCount);
-        getArenaList(list, arenaList, countOfArenas, arenaId);
 
-        //Вывод списка бойцов
-        fighterListPrint(list);
+        createArenaList(arenaId, countOfArenas, list, arenaList);
 
-        //Начало битвы
-            startFightOnAllArenas(arenaList);
-
-        for (Fighter f :
-                list) {
-            System.out.println(f.toString());
+        while (list.size() != 1) {
+            Thread.currentThread().sleep(10);
         }
+        System.out.println((System.currentTimeMillis() - timer));
+
+        Thread.sleep(1000);
+        System.out.println("\nList size: " + list.size() + "\nWINNER: " + list.get(0));
+
+
 
     }
 
-    private static void startFightOnAllArenas(List<Arena> arenaList) {
-        for (Arena a :
-                arenaList) {
+     //Начало битвы на аренах
+     //Создание списка арен
+    private static void createArenaList(int arenaId, int countOfArenas, List<Fighter> list, List<Thread> arenaList) {
+        for (int i = 0; i < countOfArenas; i++) {
+            Thread a = new Thread(new Arena(list, ++arenaId));
+            arenaList.add(a);
             a.start();
         }
     }
@@ -56,12 +62,6 @@ public class Main {
         }
     }
 
-    //Создание списка арен
-    private static void getArenaList(List<Fighter> list, List<Arena> arenaList, int count, int id) {
-        for (int i = 0; i < count; i++) {
-            arenaList.add(new Arena(list, ++id));
-        }
-    }
 
     //Создание списка файтеров
     private static void getFighterList(Random r, List<Fighter> list, int id, int fCount) {
