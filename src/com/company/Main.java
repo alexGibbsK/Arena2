@@ -16,7 +16,7 @@ public class Main {
         //Кол-во бойцов
         int fCount = 10000;
         //Кол-во арен
-        int countOfArenas = 20;
+        int countOfArenas = 5;
 
         long timer = System.currentTimeMillis();
         List<Fighter> list = Collections.synchronizedList(new ArrayList<Fighter>());
@@ -26,6 +26,8 @@ public class Main {
 
         //Создание списков
         getFighterList(r, list, fighterId, fCount);
+
+        fighterListPrint(list);
 
         createArenaList(arenaId, countOfArenas, list, arenaList);
 
