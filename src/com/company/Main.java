@@ -14,7 +14,7 @@ public class Main {
         int fighterId = 1;
         int arenaId = 0;
         //Кол-во бойцов
-        int fCount = 10000;
+        int fCount = 100;
         //Кол-во арен
         int countOfArenas = 5;
 
