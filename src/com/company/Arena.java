@@ -37,7 +37,7 @@ public class Arena implements Runnable {
             try {
                 //synchronized (list) {
                 fight();
-                  //}
+                //}
             } catch (IndexOutOfBoundsException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Arena #" + this.id + "CLOSED");
@@ -45,7 +45,7 @@ public class Arena implements Runnable {
                 Thread.currentThread().interrupt();
                 System.out.println("Arena #" + this.id + "CLOSED");
             }
-       }
+        }
     }
 
 
@@ -80,8 +80,8 @@ public class Arena implements Runnable {
             }
         }
 
-        System.out.println("\nFigter" + f1.id + " hp: " + f1.getHp());
-        System.out.println("Figter" + f2.id + " hp: " + f2.getHp());
+        System.out.println("\n" + f1.getName() + f1.id + " hp: " + f1.getHp());
+        System.out.println(f2.getName() + f2.id + " hp: " + f2.getHp());
         System.out.println("\n----------------------------\n");
 
         //Возвращение победителя в замесе обратно в лист

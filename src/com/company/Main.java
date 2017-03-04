@@ -17,6 +17,7 @@ public class Main {
         int fCount = 100;
         //Кол-во арен
         int countOfArenas = 5;
+        double percentMageOrFighter = 0.5;
 
         long timer = System.currentTimeMillis();
         List<Fighter> list = Collections.synchronizedList(new ArrayList<Fighter>());
@@ -25,7 +26,7 @@ public class Main {
 
 
         //Создание списков
-        getFighterList(r, list, fighterId, fCount);
+        getFighterList(r, list, fighterId, fCount, percentMageOrFighter);
 
         fighterListPrint(list);
 
@@ -63,9 +64,12 @@ public class Main {
 
 
     //Создание списка файтеров
-    private static void getFighterList(Random r, List<Fighter> list, int id, int fCount) {
+    private static void getFighterList(Random r, List<Fighter> list, int id, int fCount, double percent) {
         for (int i = 0; i < fCount; i++) {
-            list.add(new Fighter(r.nextInt(100) + 1, r.nextInt(100) + 1, r.nextInt(100) + 1, id++));
+            if(r.nextDouble() > percent){
+                list.add(new Mage(r.nextInt(100) + 1, r.nextInt(100) + 1, r.nextInt(100) + 1, id++));
+            }else
+                list.add(new Fighter(r.nextInt(100) + 1, r.nextInt(100) + 1, r.nextInt(100) + 1, id++));
         }
     }
 }

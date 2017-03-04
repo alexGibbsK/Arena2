@@ -14,8 +14,13 @@ public class Fighter {
     int per;
     int hp = 100;
     int id;
+    String name = "Fighter";
     Random r = new Random();
 
+
+    public String getName() {
+        return name;
+    }
 
     public Fighter(int str, int dex, int per, int id) {
         int sum = str + dex + per;
@@ -25,8 +30,12 @@ public class Fighter {
         this.str = (int) ((max / sum) * str);
         if (this.str < 1) this.str++;
         this.dex = (int) ((max / sum) * dex);
+
         this.per = (int) ((max / sum) * per);
         this.hp = 100;
+    }
+
+    public Fighter() {
     }
 
     public int getHp() {
@@ -53,17 +62,17 @@ public class Fighter {
         int damage = r.nextInt(this.str) + 1;
         if (r.nextDouble() < ((double) this.per / 100)) {
             f1.hp -= (damage * 2);
-           System.out.println((char) 27 + "[31mCRIT Fighter" + this.id + " Hits Fighter" + f1.id + " for: " + damage * 2 + " HP" + (char) 27 + "[0m");
+           System.out.println((char) 27 + "[31mCRIT " + this.name + this.id + " Hits "+ f1.name + f1.id + " for: " + damage * 2 + " HP" + (char) 27 + "[0m");
         }
         //Реализация уворота
         else if (r.nextDouble() < ((double) f1.getDex() / 100)) {
             f1.hp -= (damage * 0.2);
-            System.out.println((char) 27 + "[34mDODGE Fighter" + this.id + " Hits Fighter" + f1.id + " for: " + (int) (damage * 0.2) + " HP" + (char) 27 + "[0m");
+            System.out.println((char) 27 + "[34mDODGE " + this.name + this.id + " Hits " + f1.name + f1.id + " for: " + (int) (damage * 0.2) + " HP" + (char) 27 + "[0m");
         }
         //Реализация обычного удара
         else {
             f1.hp -= damage;
-            System.out.println("NORMAL Fighter" + this.id + " Hits Fighter" + f1.id + " for: " + damage + " HP");
+            System.out.println("NORMAL " + this.name + this.id + " Hits " + f1.name + f1.id + " for: " + damage + " HP");
         }
         return f1;
     }
