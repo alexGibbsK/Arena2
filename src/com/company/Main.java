@@ -14,7 +14,7 @@ public class Main {
         int fighterId = 1;
         int arenaId = 0;
         //Кол-во бойцов
-        int fCount = 1400000;
+        int fCount = 14000;
         //Кол-во арен
         int countOfArenas = 10;
         double percentMageOrFighter = 0.5;
