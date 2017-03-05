@@ -21,18 +21,6 @@ public class Fighter {
     String hitName = " hits ";
 
 
-    public String getName() {
-        return name;
-    }
-
-    public String getHitName() {
-        return hitName;
-    }
-
-    public int getIntel() {
-        return intel;
-    }
-
     public Fighter(int str, int dex, int per, int id) {
         int sum = str + dex + per;
         double max = 50;
@@ -48,6 +36,18 @@ public class Fighter {
     }
 
     public Fighter() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getHitName() {
+        return hitName;
+    }
+
+    public int getIntel() {
+        return intel;
     }
 
     public int getHp() {
@@ -72,14 +72,14 @@ public class Fighter {
 
     public Fighter doHit(Fighter f1) {
         int damage;
-        if(this instanceof Mage){
+        if (this instanceof Mage) {
             damage = r.nextInt(getIntel()) + 1;
-        }else{
+        } else {
             damage = r.nextInt(getStr()) + 1;
         }
         if (r.nextDouble() < ((double) getPer() / 100)) {
             f1.hp -= (damage * 2);
-           System.out.println((char) 27 + "[31mCRIT " + getName() + this.id + getHitName() + f1.getName() + f1.id + " for: " + damage * 2 + " HP" + (char) 27 + "[0m");
+            System.out.println((char) 27 + "[31mCRIT " + getName() + this.id + getHitName() + f1.getName() + f1.id + " for: " + damage * 2 + " HP" + (char) 27 + "[0m");
         }
         //Реализация уворота
         else if (r.nextDouble() < ((double) f1.getDex() / 100)) {
@@ -96,10 +96,12 @@ public class Fighter {
 
     @Override
     public String toString() {
-        return "Fighter" + id +
-                " str=" + str +
+        return getName() + " " +
+                "str=" + str +
                 ", dex=" + dex +
                 ", per=" + per +
-                ", hp=" + hp;
+                ", intel=" + intel +
+                ", hp=" + hp +
+                ", id=" + id;
     }
 }

@@ -9,7 +9,7 @@ import java.util.Random;
  * Created by Alex on 3/1/2017.
  */
 public class Arena implements Runnable {
-    List<Fighter> list = Collections.synchronizedList(new ArrayList<Fighter>());
+    List<Fighter> list = new ArrayList<Fighter>();
 
     int id;
     Random r = new Random();

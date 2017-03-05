@@ -40,10 +40,4 @@ public class Mage extends Fighter {
         return super.doHit(f1);
     }
 
-    @Override
-    public String toString() {
-        return "Mage" + this.id +
-                " intel=" + intel +
-                " dex=" + this.dex + " per=" +this.per;
-    }
 }
