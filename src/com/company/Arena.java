@@ -37,7 +37,7 @@ public class Arena implements Runnable {
             try {
                 //synchronized (list) {
                 fight();
-                //}
+               // }
             } catch (IndexOutOfBoundsException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Arena #" + this.id + "CLOSED");

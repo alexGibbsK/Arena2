@@ -72,7 +72,7 @@ public class Fighter {
 
     public Fighter doHit(Fighter f1) {
         int damage;
-        if (this instanceof Mage) {
+        if (this.getIntel() > 0) {
             damage = r.nextInt(getIntel()) + 1;
         } else {
             damage = r.nextInt(getStr()) + 1;

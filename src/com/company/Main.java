@@ -14,9 +14,9 @@ public class Main {
         int fighterId = 1;
         int arenaId = 0;
         //Кол-во бойцов
-        int fCount = 14;
+        int fCount = 1400000;
         //Кол-во арен
-        int countOfArenas = 1;
+        int countOfArenas = 10;
         double percentMageOrFighter = 0.5;
 
         List<Fighter> list = Collections.synchronizedList(new ArrayList<Fighter>());
