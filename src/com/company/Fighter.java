@@ -12,14 +12,25 @@ public class Fighter {
     int dex;
     //Восприятие
     int per;
+    //Интеллект
+    int intel;
     int hp = 100;
     int id;
     String name = "Fighter";
     Random r = new Random();
+    String hitName = " hits ";
 
 
     public String getName() {
         return name;
+    }
+
+    public String getHitName() {
+        return hitName;
+    }
+
+    public int getIntel() {
+        return intel;
     }
 
     public Fighter(int str, int dex, int per, int id) {
@@ -33,6 +44,7 @@ public class Fighter {
 
         this.per = (int) ((max / sum) * per);
         this.hp = 100;
+
     }
 
     public Fighter() {
@@ -59,20 +71,25 @@ public class Fighter {
     }
 
     public Fighter doHit(Fighter f1) {
-        int damage = r.nextInt(this.str) + 1;
-        if (r.nextDouble() < ((double) this.per / 100)) {
+        int damage;
+        if(this instanceof Mage){
+            damage = r.nextInt(getIntel()) + 1;
+        }else{
+            damage = r.nextInt(getStr()) + 1;
+        }
+        if (r.nextDouble() < ((double) getPer() / 100)) {
             f1.hp -= (damage * 2);
-           System.out.println((char) 27 + "[31mCRIT " + this.name + this.id + " Hits "+ f1.name + f1.id + " for: " + damage * 2 + " HP" + (char) 27 + "[0m");
+           System.out.println((char) 27 + "[31mCRIT " + getName() + this.id + getHitName() + f1.getName() + f1.id + " for: " + damage * 2 + " HP" + (char) 27 + "[0m");
         }
         //Реализация уворота
         else if (r.nextDouble() < ((double) f1.getDex() / 100)) {
             f1.hp -= (damage * 0.2);
-            System.out.println((char) 27 + "[34mDODGE " + this.name + this.id + " Hits " + f1.name + f1.id + " for: " + (int) (damage * 0.2) + " HP" + (char) 27 + "[0m");
+            System.out.println((char) 27 + "[34mDODGE " + getName() + this.id + getHitName() + f1.getName() + f1.id + " for: " + (int) (damage * 0.2) + " HP" + (char) 27 + "[0m");
         }
         //Реализация обычного удара
         else {
             f1.hp -= damage;
-            System.out.println("NORMAL " + this.name + this.id + " Hits " + f1.name + f1.id + " for: " + damage + " HP");
+            System.out.println("NORMAL " + getName() + this.id + getHitName() + f1.getName() + f1.id + " for: " + damage + " HP");
         }
         return f1;
     }
