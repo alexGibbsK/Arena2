@@ -14,12 +14,11 @@ public class Main {
         int fighterId = 1;
         int arenaId = 0;
         //Кол-во бойцов
-        int fCount = 100;
+        int fCount = 14;
         //Кол-во арен
-        int countOfArenas = 5;
+        int countOfArenas = 1;
         double percentMageOrFighter = 0.5;
 
-        long timer = System.currentTimeMillis();
         List<Fighter> list = Collections.synchronizedList(new ArrayList<Fighter>());
         List<Thread> arenaList = new ArrayList<Thread>();
 
@@ -35,7 +34,6 @@ public class Main {
         while (list.size() != 1) {
             Thread.currentThread().sleep(10);
         }
-        System.out.println((System.currentTimeMillis() - timer));
 
         Thread.sleep(1000);
         System.out.println("\nList size: " + list.size() + "\nWINNER: " + list.get(0));
